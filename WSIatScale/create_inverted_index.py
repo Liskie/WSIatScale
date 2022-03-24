@@ -14,7 +14,7 @@ from utils.utils import tokenizer_params
 from utils.special_tokens import SpecialTokens
 
 def main(replacements_dir, outdir, dataset):
-    tokenizer = AutoTokenizer.from_pretrained(tokenizer_params[dataset], use_fast=True)
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_params[dataset], use_fast=True) # by default it's bert
     special_tokens = SpecialTokens(tokenizer_params[dataset])
     tokens_to_index = special_tokens.full_words_tokens(tokenizer)
 

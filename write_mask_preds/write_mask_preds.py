@@ -14,7 +14,12 @@ from transformers.data.data_collator import default_data_collator
 from transformers import AutoTokenizer, BertForMaskedLM, RobertaForMaskedLM
 
 from adaptive_sampler import MaxTokensBatchSampler, data_collator_for_adaptive_sampler
-from data_processors import CORDDataset, WikiDataset, SemEval2010Dataset, SemEval2013Dataset
+
+# Debug: possible wrong imports
+from data_processors.cord import CORDDataset
+from data_processors.wiki import WikiDataset
+from data_processors.SemEval2010 import SemEval2010Dataset
+from data_processors.SemEval2013 import SemEval2013Dataset
 
 REPS_DIR = 'replacements'
 

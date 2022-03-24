@@ -14,7 +14,9 @@ def create_lemmatized_vocab(outdir, model):
 def prepare_lemmatized_vocab(model):
     same_count = 0
     lemmatized_vocab = {}
+    # Debug: use smaller nlp pipeline
     nlp = spacy.load("en_core_web_lg", disable=['ner', 'parser'])
+    # nlp = spacy.load("en_core_web_sm", disable=['ner', 'parser'])
     tokenizer = AutoTokenizer.from_pretrained(model, use_fast=True)
     vocab = tokenizer.get_vocab()
     for word, index in tqdm(vocab.items()):
@@ -27,8 +29,13 @@ def prepare_lemmatized_vocab(model):
         if k == v:
             same_count += 1
 
+    # Debug: limit number of lines to print
+    print_counter = 0
     for original_token, lemma_token in lemmatized_vocab.items():
         if original_token != lemma_token:
+            print_counter += 1
+            if print_counter > 5:
+                break
             print(f"{tokenizer.decode([original_token])} -> {tokenizer.decode([lemma_token])}")
     print(f"Out of {len(vocab)} tokens, {same_count} are left unchanged.")
 
@@ -55,10 +62,10 @@ def lemmatize_with_exceptions(nlp, tokenizer, vocab, index, word):
         ret = word
     else:
         spacy_token = nlp(word)[0]
-        if spacy_token.lemma_ == '-PRON-':
+        if spacy_token.lemma_ == '-PRON-': # kind of confusing, -PRON- seems to be deprecated
             ret = word
         else:
-            ret = spacy_token.lemma_
+            ret = spacy_token.lemma_ # the actual lemmatization of words
 
             if len(capitalized_letters) > 0:
                 if len(capitalized_letters) == 1:
@@ -75,6 +82,6 @@ def lemmatize_with_exceptions(nlp, tokenizer, vocab, index, word):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--outdir", type=str, required=True)
-    parser.add_argument("--model", type=str, choices=['bert-large-uncased', 'bert-large-cased-whole-word-masking', 'allenai/scibert_scivocab_uncased'])
+    parser.add_argument("--model", type=str, choices=['bert-large-uncased', 'bert-large-cased-whole-word-masking', 'allenai/scibert_scivocab_uncased', 'prajjwal1/bert-mini'])
     args = parser.parse_args()
     create_lemmatized_vocab(args.outdir, args.model)
