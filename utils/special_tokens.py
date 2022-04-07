@@ -46,7 +46,7 @@ class SpecialTokens:
         # Debug: this file is not provided
         # half_words_list_path = f"non-full-words/non-full-words-{model_hf_path}.npy"
         half_words_list_path = None
-        self.half_words_list = np.load(half_words_list_path) if half_words_list_path else None
+        self.half_words_list = np.load(half_words_list_path) if half_words_list_path else []
         lemmatized_vocab_path = f"WSIatScale/lemmatized_vocabs/lemmatized_vocabs-{model_hf_path}.json"
         self.lemmatized_vocab = {int(k): v for k, v in json.load(open(lemmatized_vocab_path, 'r')).items()}
 
