@@ -196,7 +196,9 @@ def find_paragraph_and_positions(token_positions, tokens, lengths, doc_ids):
 def read_inverted_index(inverted_index, token, sample_n_instances):
     inverted_index_file = os.path.join(inverted_index, f"{token}.jsonl")
     if not os.path.exists(inverted_index_file):
-        raise ValueError(f'token {token} is not in inverted index {inverted_index}')
+        # Debug: ignore this error and return empty dict
+        # raise ValueError(f'token {token} is not in inverted index {inverted_index}')
+        return {}
     index = {}
     with open(inverted_index_file, 'r') as f:
         for line in f:
