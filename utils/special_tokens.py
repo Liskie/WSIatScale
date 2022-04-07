@@ -68,7 +68,9 @@ class SpecialTokens:
 
     def lemmatize(self, token):
         # assumes token in self.lemmatized_vocab
-        return self.lemmatized_vocab[token]
+        # Debug: this assumption is too strong
+        # return self.lemmatized_vocab[token]
+        return self.lemmatized_vocab[token] if token in self.lemmatized_vocab.keys() else token
 
     def tokens_to_annotate(self):
         return set([v for v in self.lemmatized_vocab.values() if self.valid_token(v)])
