@@ -46,6 +46,10 @@ def write_communities_to_disk(token, tokenizer, model_hf_path):
         bar=lambda x: x,
     )
 
+    # Debug: avoid empty rep_instance
+    if not rep_instances.data:
+        return
+
     clustering_data_by_n_reps = {'agglomerative_clustering': {}, 'community_detection': {}}
     for n_reps in [5, 20, 50]:
         curr_rep_instances = deepcopy(rep_instances)
