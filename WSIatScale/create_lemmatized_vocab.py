@@ -62,7 +62,7 @@ def lemmatize_with_exceptions(nlp, tokenizer, vocab, index, word):
         ret = word
     else:
         spacy_token = nlp(word)[0]
-        if spacy_token.lemma_ == '-PRON-': # kind of confusing, -PRON- seems to be deprecated
+        if spacy_token.lemma_ == '-PRON-': # kind of confusing, -PRON- seems to be deprecated∑
             ret = word
         else:
             ret = spacy_token.lemma_ # the actual lemmatization of words

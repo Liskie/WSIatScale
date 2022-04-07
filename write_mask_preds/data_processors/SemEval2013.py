@@ -12,7 +12,7 @@ from transformers.tokenization_utils import PreTrainedTokenizer
 
 # Debug: possibly wrong import
 # from data_processors.data_processor import InputFeatures # pylint: disable=import-error
-from data_processor import InputFeatures
+from .data_processor import InputFeatures
 
 from xml.etree import ElementTree
 
