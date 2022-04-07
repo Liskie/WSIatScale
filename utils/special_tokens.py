@@ -43,7 +43,9 @@ class SpecialTokens:
 
         self.full_stop_token, self.CLS, self.SEP = full_stop_token, CLS, SEP
         self.stop_words_and_punctuation = stop_words.union(single_letters_and_punctuation)
-        half_words_list_path = f"non-full-words/non-full-words-{model_hf_path}.npy"
+        # Debug: this file is not provided
+        # half_words_list_path = f"non-full-words/non-full-words-{model_hf_path}.npy"
+        half_words_list_path = None
         self.half_words_list = np.load(half_words_list_path) if half_words_list_path else None
 
         lemmatized_vocab_path = f"lemmatized_vocabs/lemmatized_vocabs-{model_hf_path}.json"
