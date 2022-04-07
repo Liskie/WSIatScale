@@ -161,8 +161,6 @@ def read_files(token,
     rep_instances = RepInstances(lemmatized_vocab)
 
     for file, token_positions in bar(files_to_pos.items()):
-        print(f'data_dir: {data_dir}')
-        print(f'file: {file}')
         doc_ids = np.load(npy_file_path(data_dir, file, 'doc_ids'), mmap_mode='r')
         tokens = np.load(npy_file_path(data_dir, file, 'tokens'), mmap_mode='r') if 'tokens' in instance_attributes else None
         lengths = np.load(npy_file_path(data_dir, file, 'lengths'), mmap_mode='r') if 'lengths' in instance_attributes or 'tokens' in instance_attributes else None
@@ -181,8 +179,9 @@ def read_files(token,
     return rep_instances, msg
 
 def npy_file_path(data_dir, f, a):
-    if 'wiki' in data_dir: #HACK
-        return os.path.join(os.path.join(data_dir, '..', REPS_DIR), f"{f}-{a}.npy")
+    # Debug: wtf is this hack???
+    # if 'wiki' in data_dir: #HACK
+    #     return os.path.join(os.path.join(data_dir, '..', REPS_DIR), f"{f}-{a}.npy")
     return os.path.join(os.path.join(data_dir, REPS_DIR), f"{f}-{a}.npy")
 
 def find_paragraph_and_positions(token_positions, tokens, lengths, doc_ids):
