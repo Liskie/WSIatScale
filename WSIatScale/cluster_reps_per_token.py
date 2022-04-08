@@ -109,6 +109,9 @@ def sort_community_tokens_by_popularity(rep_instances, community_tokens):
 
 def read_clustering_data(data_dir, token):
     cluster_file = os.path.join(data_dir, WORD_CLUSTERS_DIR, f"{token}_clustering.json")
+    # Debug: return None if file not exists
+    if not os.path.exists(cluster_file):
+        return None
     return json.load(open(cluster_file, 'r'))
 
 if __name__ == "__main__":

@@ -74,6 +74,11 @@ def find_clusters(filename, data_dir, special_tokens, run_specific_method, run_s
             rep_inst.populate_specific_size(TOP_REPS_TO_LOOK_ON)
             top_token_reps = rep_inst.data[0].reps
             clustering_data = read_clustering_data(data_dir, lemmatized_token)
+
+            # Debug: ignore empty clustering data
+            if not clustering_data:
+                continue
+
             for method in clustering_data.keys():
                 if not(run_specific_method is None or method == run_specific_method): continue
                 for n_reps in clustering_data[method]:
