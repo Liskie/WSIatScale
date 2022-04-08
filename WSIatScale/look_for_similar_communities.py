@@ -68,6 +68,10 @@ def find_all_community_tokens(tokenizer, special_tokens, data_dir, dataset, meth
         word = tokenizer.decode([token])
         clustering_data = read_clustering_data(data_dir, token)
 
+        # Debug: ignore empty clustering data
+        if not clustering_data:
+            continue
+
         curr_clustering_data = clustering_data[method][n_reps]
         curr_clustering_data = [community for community in curr_clustering_data if len(community) > 1 and community[1][1] > 10] #heuristics
         for cluster_id, community in enumerate(curr_clustering_data):
