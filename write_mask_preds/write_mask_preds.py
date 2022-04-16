@@ -88,7 +88,6 @@ def initialize_models(device, args):
     if args.fp16:
         from apex import amp # pylint: disable=import-error
         model = amp.initialize(model, opt_level="O2")
-        print(model)
 
     assert tokenizer.vocab_size < 65535 # Saving pred_ids as np.uint16
     return tokenizer, model
