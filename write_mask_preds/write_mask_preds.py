@@ -75,7 +75,7 @@ def read_files_with_conditions(args):
     for current_path, folder_names, file_names in os.walk(args.data_dir):
         for file_name in file_names:
             files.append(os.path.join(current_path, file_name))
-
+    files = sorted(files)
     print(files[:50])
 
     if args.starts_with:
