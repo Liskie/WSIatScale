@@ -76,6 +76,8 @@ def read_files_with_conditions(args):
         for file_name in file_names:
             files.append(os.path.join(current_path, file_name))
 
+    print(files[:50])
+
     if args.starts_with:
         files = sorted([f for f in files if f.startswith(args.starts_with)])
     if args.files_range:
