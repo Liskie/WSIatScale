@@ -69,14 +69,7 @@ def read_files_with_conditions(args):
     if args.no_input_file:
         return [args.dataset]
 
-    # Debug: add recursive file reading
-    # files = os.listdir(args.data_dir)
-    files = []
-    for current_path, folder_names, file_names in os.walk(args.data_dir):
-        for file_name in file_names:
-            files.append(os.path.join(current_path, file_name))
-    files = sorted(files)
-    print(files[:50])
+    files = os.listdir(args.data_dir)
 
     if args.starts_with:
         files = sorted([f for f in files if f.startswith(args.starts_with)])
