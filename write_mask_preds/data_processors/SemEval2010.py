@@ -97,6 +97,7 @@ class SemEval2010Processor(DataProcessor):
                               'committed': 'commit', 'regained': 'regain',
                               'divided': 'divide',
                               'relaxe': 'relax', 'relaxed': 'relax',
+                              'Notes': 'note',
                               'figgere': 'figure', 'figger': 'figure', 'lah': 'lie'}  # Last row are weird ones
 
         nlp = spacy.load('en_core_web_sm', disable=['ner', 'parser'])
