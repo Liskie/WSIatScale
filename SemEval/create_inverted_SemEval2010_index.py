@@ -23,7 +23,7 @@ def main(data_dir, outdir, model):
 def index(data_dir, outdir, model, doc_id_to_inst_id, inst_id_to_target_pos, bar=tqdm):
     index_dict = {}
 
-    replacements_dir = os.path.join(data_dir, '../replacements')
+    replacements_dir = os.path.join(data_dir, 'replacements')
     all_files = set([f"{file.split('-')[0]}-{file.split('-')[1]}" for file in os.listdir(replacements_dir)])
 
     for filename in tqdm(all_files):
