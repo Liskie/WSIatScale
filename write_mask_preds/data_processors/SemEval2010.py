@@ -18,7 +18,7 @@ from .data_processor import InputFeatures
 
 from xml.etree import ElementTree
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 MAX_LENGTH = 512
