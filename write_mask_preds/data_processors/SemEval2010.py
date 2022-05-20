@@ -124,9 +124,9 @@ class SemEval2010Processor(DataProcessor):
                             simliar_prev_texts = len(all_occur_idx) - 1
                         occur_idx = all_occur_idx[simliar_prev_texts]
 
-                    pre = self.format_text(''.join(parsed[i].string for i in range(occur_idx)))
+                    pre = self.format_text(''.join(parsed[i].text for i in range(occur_idx)))
                     target = self.format_target(tokenizer, parsed[occur_idx].text, lemma)
-                    post = self.format_text(''.join(parsed[i].string for i in range(occur_idx + 1, len(parsed))))
+                    post = self.format_text(''.join(parsed[i].text for i in range(occur_idx + 1, len(parsed))))
 
                     target_position = len(tokenizer.encode(pre)) - 1
                     text = f"{pre}{target} {post}"
