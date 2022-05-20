@@ -88,7 +88,7 @@ class SemEval2010Processor(DataProcessor):
         'committed': 'commit', 'regained': 'regain',
         'figgere': 'figure', 'figger': 'figure', 'lah': 'lie'} # Last row are weird ones
 
-        nlp = spacy.load('en', disable=['ner', 'parser'])
+        nlp = spacy.load('en-core-web-sm', disable=['ner', 'parser'])
         for root_dir, _, files in os.walk(data_dir):
             for file in files:
                 if '.xml' not in file: continue
