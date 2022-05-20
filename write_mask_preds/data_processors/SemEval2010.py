@@ -48,8 +48,10 @@ class SemEval2010Dataset(Dataset):
             logger.info(
                 f"Loading features from cached file {cached_features_file} [took %.3f s]", time.time() - start
             )
+            print(f"Loading features from cached file {cached_features_file} [took %.3f s]", time.time() - start)
         else:
             logger.info(f"Creating features from dataset file at {args.data_dir}")
+            print(f"Creating features from dataset file at {args.data_dir}")
 
             examples = list(self.processor.get_examples(args.data_dir, tokenizer))
             if limit_length is not None:
@@ -68,6 +70,7 @@ class SemEval2010Dataset(Dataset):
             logger.info(
                 "Saving features into cached file %s [took %.3f s]", cached_features_file, time.time() - start
             )
+            print("Saving features into cached file %s [took %.3f s]", cached_features_file, time.time() - start)
 
     def __len__(self):
         return len(self.features)
