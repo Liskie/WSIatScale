@@ -37,7 +37,9 @@ def index(data_dir, outdir, model, doc_id_to_inst_id, inst_id_to_target_pos, bar
             lemmas = [f" {l}" for l in lemmas]
             words_to_index = [f" {w}" for w in words_to_index]
 
-        file_id = filename.split('.npz')[0]
+        # Debug: file_id is different from what we do in wiki.
+        # file_id = filename.split('.npz')[0]
+        file_id = filename
         length_sum = 0
         for lemma, curr_len, local_target_pos in zip(lemmas, sent_lengths, target_positions):
             global_pos = length_sum + local_target_pos
