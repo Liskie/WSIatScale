@@ -191,9 +191,6 @@ def read_files(token,
 
 
 def npy_file_path(data_dir, f, a):
-    # Debug: wtf is this hack???
-    # if 'wiki' in data_dir: #HACK
-    #     return os.path.join(os.path.join(data_dir, '..', REPS_DIR), f"{f}-{a}.npy")
     return os.path.join(os.path.join(data_dir, REPS_DIR), f"{f}-{a}.npy")
 
 

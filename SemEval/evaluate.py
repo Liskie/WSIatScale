@@ -136,9 +136,9 @@ def community_detection_labelling(args, data_dir, lemmas, instance_id_to_doc_id,
     return labeling
 
     # lemmas = ['book.n', 'book.v']
-    for lemma in lemmas:
-        labeling.update(partial_single_lemma_comm_detection(lemma))
-    return labeling
+    # for lemma in lemmas:
+    #     labeling.update(partial_single_lemma_comm_detection(lemma))
+    # return labeling
 
 def single_lemma_comm_detection(lemma, data_dir, model_hf_path, n_reps, args, tokenizer, voting_method, doc_id_to_inst_id):
     rep_instances, _ = read_files(lemma,

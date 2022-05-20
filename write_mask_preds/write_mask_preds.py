@@ -15,7 +15,6 @@ from transformers import AutoTokenizer, BertForMaskedLM, RobertaForMaskedLM
 
 from adaptive_sampler import MaxTokensBatchSampler, data_collator_for_adaptive_sampler
 
-# Debug: possible wrong imports
 from data_processors.cord import CORDDataset
 from data_processors.wiki import WikiDataset
 from data_processors.SemEval2010 import SemEval2010Dataset

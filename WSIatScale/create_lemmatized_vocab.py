@@ -14,7 +14,6 @@ def create_lemmatized_vocab(outdir, model):
 def prepare_lemmatized_vocab(model):
     same_count = 0
     lemmatized_vocab = {}
-    # Debug: use smaller nlp pipeline
     nlp = spacy.load("en_core_web_lg", disable=['ner', 'parser'])
     # nlp = spacy.load("en_core_web_sm", disable=['ner', 'parser'])
     tokenizer = AutoTokenizer.from_pretrained(model, use_fast=True)

@@ -26,11 +26,6 @@ def main(args):
     # STYLES LIKE I'M DOING, SHOULD BE CHANGED.
     model_hf_path = tokenizer_params[args.dataset]
     special_tokens = SpecialTokens(model_hf_path)
-    # Debug: remove the same useless hack
-    # if 'wiki' in args.data_dir: #HACK
-    #     replacements_dir = os.path.join(args.data_dir, '..', REPS_DIR)
-    # else:
-    #     replacements_dir = os.path.join(args.data_dir, REPS_DIR)
     replacements_dir = os.path.join(args.data_dir, REPS_DIR)
 
     files = data_files(replacements_dir)

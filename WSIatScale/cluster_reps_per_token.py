@@ -21,7 +21,6 @@ from transformers import AutoTokenizer
 
 SAMPLE_N_INSTANCES = 1000
 MOST_COMMON_CLUSTER_REPS = 100
-# WORD_CLUSTERS_DIR = 'word_clusters_resolution1.2' #TODO pick
 WORD_CLUSTERS_DIR = 'word_clusters'
 
 def main(args):
