@@ -22,16 +22,17 @@ logger = logging.getLogger(__name__)
 
 MAX_LENGTH = 512
 
+
 class SemEval2010Dataset(Dataset):
     def __init__(
-        self,
-        args,
-        input_file: str,
-        tokenizer: PreTrainedTokenizer,
-        limit_length: Optional[int] = None,
-        cache_dir: Optional[str] = None,
+            self,
+            args,
+            input_file: str,
+            tokenizer: PreTrainedTokenizer,
+            limit_length: Optional[int] = None,
+            cache_dir: Optional[str] = None,
     ):
-        assert input_file == "SemEval2010" # Not using input_file
+        assert input_file == "SemEval2010"  # Not using input_file
         self.processor = SemEval2010Processor()
         cached_features_file = os.path.join(
             cache_dir if cache_dir is not None else args.data_dir,
@@ -61,7 +62,8 @@ class SemEval2010Dataset(Dataset):
             start = time.time()
             torch.save(self.features, cached_features_file)
             json.dump(instance_id_to_doc_id, open(os.path.join(args.out_dir, "instance_id_to_doc_id.json"), 'w'))
-            json.dump(instance_id_to_target_pos, open(os.path.join(args.out_dir, "instance_id_to_target_pos.json"), 'w'))
+            json.dump(instance_id_to_target_pos,
+                      open(os.path.join(args.out_dir, "instance_id_to_target_pos.json"), 'w'))
             logger.info(
                 "Saving features into cached file %s [took %.3f s]", cached_features_file, time.time() - start
             )
@@ -74,6 +76,7 @@ class SemEval2010Dataset(Dataset):
             return [self.features[i] for i in x]
         return self.features[x]
 
+
 @dataclass
 class SemEval2010InputExample(InputExample):
     """
@@ -81,12 +84,17 @@ class SemEval2010InputExample(InputExample):
     """
     local_pos: Optional[int] = -1
 
+
 class SemEval2010Processor(DataProcessor):
     def get_examples(self, data_dir, tokenizer):
-        additional_mapping = {'stuck': 'stick', 'swam': 'swim', 'lain': 'lie', 'swore': 'swear', 'lie': 'lay', 'lay': 'lie',
-        'commissions': 'commission', 'shaving': 'shave', 'observing': 'observe', 'swimming': 'swim', 'separating': 'separate', 'questioning': 'question',  'waiting': 'wait', 'happening': 'happen', 'rooting': 'root', 'sniffing': 'sniff', 'laying': 'lay', 'straightened': 'straighten', 'account': 'accounting',
-        'committed': 'commit', 'regained': 'regain',
-        'figgere': 'figure', 'figger': 'figure', 'lah': 'lie'} # Last row are weird ones
+        additional_mapping = {'stuck': 'stick', 'swam': 'swim', 'lain': 'lie', 'swore': 'swear', 'lie': 'lay',
+                              'lay': 'lie',
+                              'commissions': 'commission', 'shaving': 'shave', 'observing': 'observe',
+                              'swimming': 'swim', 'separating': 'separate', 'questioning': 'question',
+                              'waiting': 'wait', 'happening': 'happen', 'rooting': 'root', 'sniffing': 'sniff',
+                              'laying': 'lay', 'straightened': 'straighten', 'account': 'accounting',
+                              'committed': 'commit', 'regained': 'regain',
+                              'figgere': 'figure', 'figger': 'figure', 'lah': 'lie'}  # Last row are weird ones
 
         nlp = spacy.load('en_core_web_sm', disable=['ner', 'parser'])
         for root_dir, _, files in os.walk(data_dir):
@@ -108,6 +116,7 @@ class SemEval2010Processor(DataProcessor):
                         if token_lemma == lemma or additional_mapping.get(token_lemma) == lemma:
                             all_occur_idx.append(idx)
                     if len(all_occur_idx) == 0:
+                        print(f'lemma: {lemma}')
                         print(file, [x.lemma_ for x in parsed], target_sent)
                         print('could not find the correct lemma -probably spacy\'s lemmatizer had changed. '
                               'add the lemma from here to additional_mapping:')
@@ -120,7 +129,7 @@ class SemEval2010Processor(DataProcessor):
                     else:
                         simliar_prev_texts += 1
                         if simliar_prev_texts >= len(all_occur_idx):
-                            #If couldn't find all occurances
+                            # If couldn't find all occurances
                             simliar_prev_texts = len(all_occur_idx) - 1
                         occur_idx = all_occur_idx[simliar_prev_texts]
 
@@ -151,10 +160,9 @@ class SemEval2010Processor(DataProcessor):
             else:
                 return lemma
             if len(tokenizer.encode(lemma, add_special_tokens=False)) != 1:
-                return '[MASK]' #Don't have anything better to do here.
+                return '[MASK]'  # Don't have anything better to do here.
         else:
             return target
-
 
     @staticmethod
     def format_text(text):
@@ -170,6 +178,7 @@ class SemEval2010Processor(DataProcessor):
         text = text.replace("  ", " ")
 
         return text
+
 
 def convert_examples_to_features(
         examples: List[SemEval2010InputExample],
