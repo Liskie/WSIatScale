@@ -168,10 +168,6 @@ def read_files(token,
     rep_instances = RepInstances(lemmatized_vocab)
 
     for file, token_positions in bar(files_to_pos.items()):
-        # Debug: incorrect file path
-        print(f'token: {token}')
-        print(f'data_dir: {data_dir}')
-        print(f'file: {file}')
 
         doc_ids = np.load(npy_file_path(data_dir, file, 'doc_ids'), mmap_mode='r')
         tokens = np.load(npy_file_path(data_dir, file, 'tokens'),
