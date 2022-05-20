@@ -15,12 +15,14 @@ MAX_REPS = 100
 REPS_DIR = 'replacements'
 INVERTED_INDEX_DIR = 'inverted_index'
 
+
 @dataclass
 class Instance:
     reps: Tuple
     doc_id: int = None
     probs: np.array = None
     sent: np.array = None
+
 
 class RepInstances:
     def __init__(self, lemmatized_vocab=None):
@@ -34,15 +36,17 @@ class RepInstances:
                     if 'tokens' in instance_attributes else (None, None)
                 curr_reps = np.array(reps[global_pos]) if 'reps' in instance_attributes else None
                 curr_probs = np.array(probs[global_pos]) if 'probs' in instance_attributes else None
-                curr_reps, curr_probs = self.remove_specific_tokens(special_tokens.half_words_list, curr_reps, curr_probs)
-                curr_reps, curr_probs = self.remove_specific_tokens(special_tokens.stop_words_and_punctuation, curr_reps, curr_probs)
+                curr_reps, curr_probs = self.remove_specific_tokens(special_tokens.half_words_list, curr_reps,
+                                                                    curr_probs)
+                curr_reps, curr_probs = self.remove_specific_tokens(special_tokens.stop_words_and_punctuation,
+                                                                    curr_reps, curr_probs)
                 if self.lemmatized_vocab:
                     curr_reps, curr_probs = self.lemmatize_reps_and_probs(curr_reps, curr_probs)
                 self.data.append(Instance(doc_id=doc_id,
                                           reps=curr_reps,
                                           probs=curr_probs,
                                           sent=single_sent))
-    
+
     def populate_just_reps(self, token_positions, reps, special_tokens):
         for global_pos in token_positions:
             curr_reps = np.array(reps[global_pos])
@@ -91,7 +95,7 @@ class RepInstances:
             del self.data[i]
 
     def remove_query_word(self, tokenizer, original_word):
-        words_to_remove = set((original_word, original_word.lower(), original_word.title()))
+        words_to_remove = {original_word, original_word.lower(), original_word.title()}
         tokens_to_remove = set()
         for word in words_to_remove:
             token = tokenizer.encode(word, add_special_tokens=False)
@@ -106,7 +110,8 @@ class RepInstances:
             if instance.probs is None:
                 instance.reps = [r for r in instance.reps if r not in tokens_to_remove]
             else:
-                instance.reps, instance.probs = zip(*[(r, p) for r, p in zip(instance.reps, instance.probs) if r not in tokens_to_remove])
+                instance.reps, instance.probs = zip(
+                    *[(r, p) for r, p in zip(instance.reps, instance.probs) if r not in tokens_to_remove])
 
     @staticmethod
     def remove_specific_tokens(tokens_to_remove, reps, probs=None):
@@ -125,12 +130,12 @@ class RepInstances:
         if len(full_stops_indices) == 0:
             return concated_sents, local_pos
         sent_idx_to_ret = full_stops_indices.searchsorted(local_pos)
-        start = full_stops_indices[sent_idx_to_ret-1]+1 if sent_idx_to_ret != 0 else 0
+        start = full_stops_indices[sent_idx_to_ret - 1] + 1 if sent_idx_to_ret != 0 else 0
         if sent_idx_to_ret == len(full_stops_indices):
-            return concated_sents[start:], local_pos-start
-        end = full_stops_indices[sent_idx_to_ret]+1
+            return concated_sents[start:], local_pos - start
+        end = full_stops_indices[sent_idx_to_ret] + 1
         out = concated_sents[start:end]
-        return out, local_pos-start
+        return out, local_pos - start
 
     def merge(self, other):
         for key, sents in other.data.items():
@@ -139,12 +144,14 @@ class RepInstances:
             else:
                 self.data[key].append(sents)
 
+
 def tokenize(tokenizer, word):
     token = tokenizer.encode(word, add_special_tokens=False)
     if len(token) > 1:
         raise ValueError(f'Word {word} is more than a single wordpiece.')
     token = token[0]
     return token
+
 
 def read_files(token,
                data_dir,
@@ -161,11 +168,19 @@ def read_files(token,
     rep_instances = RepInstances(lemmatized_vocab)
 
     for file, token_positions in bar(files_to_pos.items()):
+        # Debug: incorrect file path
+        print(f'token: {token}')
+        print(f'data_dir: {data_dir}')
+        print(f'file: {file}')
+
         doc_ids = np.load(npy_file_path(data_dir, file, 'doc_ids'), mmap_mode='r')
-        tokens = np.load(npy_file_path(data_dir, file, 'tokens'), mmap_mode='r') if 'tokens' in instance_attributes else None
-        lengths = np.load(npy_file_path(data_dir, file, 'lengths'), mmap_mode='r') if 'lengths' in instance_attributes or 'tokens' in instance_attributes else None
+        tokens = np.load(npy_file_path(data_dir, file, 'tokens'),
+                         mmap_mode='r') if 'tokens' in instance_attributes else None
+        lengths = np.load(npy_file_path(data_dir, file, 'lengths'),
+                          mmap_mode='r') if 'lengths' in instance_attributes or 'tokens' in instance_attributes else None
         reps = np.load(npy_file_path(data_dir, file, 'reps'), mmap_mode='r') if 'reps' in instance_attributes else None
-        probs = np.load(npy_file_path(data_dir, file, 'probs'), mmap_mode='r') if 'probs' in instance_attributes else None
+        probs = np.load(npy_file_path(data_dir, file, 'probs'),
+                        mmap_mode='r') if 'probs' in instance_attributes else None
 
         if 'tokens' in instance_attributes:
             paragraph_and_positions = list(find_paragraph_and_positions(token_positions, tokens, lengths, doc_ids))
@@ -178,20 +193,24 @@ def read_files(token,
     msg = f"Found Total of {n_matches} Matches in {len(files_to_pos)} Files."
     return rep_instances, msg
 
+
 def npy_file_path(data_dir, f, a):
     # Debug: wtf is this hack???
     # if 'wiki' in data_dir: #HACK
     #     return os.path.join(os.path.join(data_dir, '..', REPS_DIR), f"{f}-{a}.npy")
     return os.path.join(os.path.join(data_dir, REPS_DIR), f"{f}-{a}.npy")
 
+
 def find_paragraph_and_positions(token_positions, tokens, lengths, doc_ids):
     token_positions = np.array(token_positions)
     length_sum = 0
     for length, doc_id in zip(lengths, doc_ids):
-        token_pos = token_positions[np.where(np.logical_and(token_positions >= length_sum, token_positions < length_sum + length))[0]]
+        token_pos = token_positions[
+            np.where(np.logical_and(token_positions >= length_sum, token_positions < length_sum + length))[0]]
         if len(token_pos) > 0:
-            yield tokens[length_sum:length_sum + length], token_pos-length_sum, token_pos, doc_id
+            yield tokens[length_sum:length_sum + length], token_pos - length_sum, token_pos, doc_id
         length_sum += length
+
 
 def read_inverted_index(inverted_index, token, sample_n_instances):
     inverted_index_file = os.path.join(inverted_index, f"{token}.jsonl")
@@ -207,6 +226,7 @@ def read_inverted_index(inverted_index, token, sample_n_instances):
     index = sample_instances(index, sample_n_instances)
     return index
 
+
 def sample_instances(index, sample_n_instances):
     if sample_n_instances < 0:
         return index
@@ -219,20 +239,25 @@ def sample_instances(index, sample_n_instances):
         ret = {file: [index[file][0]] for file in files}
     return ret
 
+
 def prepare_arguments():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--replacements_dir", type=str, default="/home/matane/matan/dev/datasets/processed_for_WSI/CORD-19/replacements/done")
+    parser.add_argument("--replacements_dir", type=str,
+                        default="/home/matane/matan/dev/datasets/processed_for_WSI/CORD-19/replacements/done")
     parser.add_argument("--word", type=str, default='race')
-    parser.add_argument("--inverted_index", type=str, default='/home/matane/matan/dev/datasets/processed_for_WSI/CORD-19/inverted_index.json')
+    parser.add_argument("--inverted_index", type=str,
+                        default='/home/matane/matan/dev/datasets/processed_for_WSI/CORD-19/inverted_index.json')
     parser.add_argument("--n_reps", type=int, default=5)
     parser.add_argument("--sample_n_instances", type=int, default=1000)
-    parser.add_argument("--n_bow_reps_to_report", type=int, default=10, help="How many different replacements to report")
+    parser.add_argument("--n_bow_reps_to_report", type=int, default=10,
+                        help="How many different replacements to report")
     parser.add_argument("--n_sents_to_print", type=int, default=2, help="Num sents to print")
     parser.add_argument("--show_top_n_clusters", type=int, default=20)
     parser.add_argument("--show_top_n_words_per_cluster", type=int, default=100)
 
-    parser.add_argument("--cluster_alg", type=str, default=None, choices=['kmeans', 'agglomerative_clustering', 'dbscan'])
+    parser.add_argument("--cluster_alg", type=str, default=None,
+                        choices=['kmeans', 'agglomerative_clustering', 'dbscan'])
     parser.add_argument("--n_clusters", type=int, help="n_clusters, for kmeans and agglomerative_clustering")
     parser.add_argument("--distance_threshold", type=float, help="for agglomerative_clustering")
     parser.add_argument("--affinity", type=str, help="for agglomerative_clustering")
@@ -242,6 +267,7 @@ def prepare_arguments():
     args = parser.parse_args()
 
     return args
+
 
 def assert_arguments(args):
     if args.cluster_alg == 'kmeans':
