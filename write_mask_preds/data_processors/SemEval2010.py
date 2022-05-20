@@ -96,6 +96,7 @@ class SemEval2010Processor(DataProcessor):
                               'straightened': 'straighten', 'account': 'accounting',
                               'committed': 'commit', 'regained': 'regain',
                               'divided': 'divide',
+                              'marks': 'mark',
                               'relaxe': 'relax', 'relaxed': 'relax',
                               'notes': 'note',
                               'figgere': 'figure', 'figger': 'figure', 'lah': 'lie'}  # Last row are weird ones
