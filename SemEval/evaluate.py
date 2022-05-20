@@ -25,7 +25,7 @@ def main(args):
         evaluate_2013(args)
 
 def evaluate_2010(args):
-    gold_dir = "/home/matane/matan/dev/SemEval/resources/SemEval-2010/evaluation/"
+    gold_dir = "/home/wyj2021/ddata/data/semeval2010_task14/evaluation/"
     labeling = label(args, args.data_dir2010, 'argmax')
     scores = evaluate_labeling_2010(gold_dir, labeling)
     # print(scores)
