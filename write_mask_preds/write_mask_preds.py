@@ -29,10 +29,13 @@ dataset_params = {'cord': {'dataset_class': CORDDataset},
     'SemEval2010': {'dataset_class': SemEval2010Dataset}, # Should be write_specific_replacements as well
     'SemEval2013': {'dataset_class': SemEval2013Dataset}, # Should be write_specific_replacements as well
     }
-model_params = {'bert-large-cased-whole-word-masking': {'model_class': BertForMaskedLM, 'model_hf_path': 'bert-large-cased-whole-word-masking'},
+model_params = {
+    'bert-large-cased-whole-word-masking': {'model_class': BertForMaskedLM, 'model_hf_path': 'bert-large-cased-whole-word-masking'},
     'bert-large-uncased' : {'model_class': BertForMaskedLM, 'model_hf_path': 'bert-large-uncased'},
     'RoBERTa': {'model_class': RobertaForMaskedLM, 'model_hf_path': 'roberta-large'},
-    'scibert': {'model_class': BertForMaskedLM, 'model_hf_path': 'allenai/scibert_scivocab_uncased'}}
+    'scibert': {'model_class': BertForMaskedLM, 'model_hf_path': 'allenai/scibert_scivocab_uncased'},
+    'bert-base-chinese': {'model_class': BertForMaskedLM, 'model_hf_path': 'bert-base-chinese'},
+}
 
 def main(args):
     device = torch.device("cuda:0" if torch.cuda.is_available() and not args.cpu else "cpu")
