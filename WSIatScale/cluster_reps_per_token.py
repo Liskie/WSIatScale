@@ -117,7 +117,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--data_dir", type=str, default="replacements")
-    parser.add_argument("--dataset", type=str, choices=['CORD-19', 'Wikipedia-roberta', 'Wikipedia-BERT'])
+    parser.add_argument("--dataset", type=str, choices=['CORD-19', 'Wikipedia-roberta', 'Wikipedia-BERT', 'Wikipedia-ZH-BERT'])
     args = parser.parse_args()
 
     out_dir = os.path.join(args.data_dir, WORD_CLUSTERS_DIR)

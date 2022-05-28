@@ -121,7 +121,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--data_dir", type=str, default="replacements")
-    parser.add_argument("--dataset", type=str, choices=['CORD-19', 'Wikipedia-roberta', 'Wikipedia-BERT'])
+    parser.add_argument("--dataset", type=str, choices=['CORD-19', 'Wikipedia-roberta', 'Wikipedia-BERT', 'Wikipedia-ZH-BERT'])
     parser.add_argument("--write_index_by_word", action='store_true')
     parser.add_argument("--write_aligned_sense_idx", action='store_true')
     parser.add_argument("--run_specific_method", type=str, choices=['community_detection', 'clustering'], help="Only if we want specific method")

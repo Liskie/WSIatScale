@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--replacements_dir", type=str, default="replacements")
     parser.add_argument("--outdir", type=str, default='inverted_index')
-    parser.add_argument("--dataset", type=str, choices=['CORD-19', 'Wikipedia-roberta', 'Wikipedia-BERT'])
+    parser.add_argument("--dataset", type=str, choices=['CORD-19', 'Wikipedia-roberta', 'Wikipedia-BERT', 'Wikipedia-ZH-BERT'])
     parser.add_argument("--words_file", type=str)
 
     args = parser.parse_args()

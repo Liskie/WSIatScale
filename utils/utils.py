@@ -4,7 +4,10 @@ import time
 
 tokenizer_params = {'CORD-19': 'allenai/scibert_scivocab_uncased',
                     'Wikipedia-roberta': 'roberta-large',
-                    'Wikipedia-BERT': 'bert-large-cased-whole-word-masking',}
+                    'Wikipedia-BERT': 'bert-large-cased-whole-word-masking',
+                    'Wikipedia-ZH-BERT': 'bert-base-chinese'
+                    }
+
 
 class StreamlitTqdm:
     def __init__(self, iterable):
@@ -20,13 +23,16 @@ class StreamlitTqdm:
             current_prog = self.i / self.length
             self.prog_bar.progress(current_prog)
 
+
 def sort_two_lists_by_one(l1, l2, key, reverse):
     return zip(*sorted(zip(l1, l2), key=key, reverse=reverse))
+
 
 def jaccard_score_between_elements(set1, set2):
     intersection_len = len(set1.intersection(set2))
     union_len = len(set1) + len(set2) - intersection_len
     return intersection_len / union_len
+
 
 def timeit(method):
     def timed(*args, **kw):
@@ -39,4 +45,5 @@ def timeit(method):
         else:
             print('%r  %2.2f ms' % (method.__name__, (te - ts) * 1000))
         return result
+
     return timed
