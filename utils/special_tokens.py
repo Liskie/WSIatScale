@@ -40,7 +40,7 @@ class SpecialTokens:
             full_stop_token, UNK, CLS, SEP = 511, 100, 101, 102
             self.UNK = UNK
 
-            stop_words = {}
+            stop_words = set()
             single_letters_and_punctuation = set(range(670))
         else:
             raise NotImplementedError
