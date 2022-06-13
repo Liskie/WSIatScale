@@ -105,9 +105,12 @@ def write_tokens_to_clusters(data_dir, reps_file, tokens_to_clusters):
                         f.write(f"{reps_file}\t{stringed_positions_and_confidence}\n")
 
 def write_positions_to_clusters(data_dir, filename, positions_to_clusters):
-    outfile = os.path.join(data_dir, ALIGNED_SENSE_IDX_FOLDER, f"{filename}.npy")
-    numpied_positions_to_clusters = np.array(list(positions_to_clusters.values()))
-    np.save(outfile, numpied_positions_to_clusters)
+    outfile = os.path.join(data_dir, ALIGNED_SENSE_IDX_FOLDER, f"{filename}.txt")
+    # numpied_positions_to_clusters = np.array(list(positions_to_clusters.values()))
+    # np.save(outfile, numpied_positions_to_clusters)
+    with open(outfile, 'w') as out:
+        for key, value in positions_to_clusters.items():
+            out.write(f'{key}: {value}\n')
 
 def next_token_validator(special_tokens, tokens, pos):
     if pos + 1 == len(tokens):
